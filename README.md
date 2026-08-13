@@ -87,12 +87,40 @@ ComfyUI 0.32 ships its own quantisation system — a `comfy_quant` uint8 JSON bl
 per layer, read by the comfy-kitchen kernels. No custom node required.
 
 [`tools/ltx25_native_quant.py`](tools/ltx25_native_quant.py) writes
-`float8_e4m3fn`, `nvfp4`, `asym_w4a8_int8` and `convrot_w4a4` builds. The
+`int8_tensorwise`, `nvfp4`, `asym_w4a8_int8`, `convrot_w4a4`, `mxfp8` and both
+`float8` builds — every format ComfyUI 0.32 supports. The
 important part is not the arithmetic, it is the **layer selection**: the set of
 1440 Linears to quantise is *mirrored from Lightricks' own `int8-convrot`
 release* rather than guessed. adaLN, the timestep embedders, every norm and bias
 and the scale-shift tables stay bf16. Those steering layers are about 6% of the
 file, and rounding them is how a quantised DiT dies.
+
+---
+
+## Mixed precision: two formats in one file
+
+`ops.py:1136` pops `comfy_quant` **per layer prefix** and sets
+`module.quant_format` from that layer's own blob, so one file can declare a
+different format on every Linear and stock ComfyUI loads it. That makes "which
+layers deserve the extra four bits" answerable instead of guessable: measure the
+reconstruction error of every layer at both precisions, then promote by
+error-removed-per-byte until the budget runs out.
+
+Promoting layer *i* costs `params x (1.002 - 0.564)` bytes and buys
+`||W_i||^2 x (e4^2 - e8^2)` of squared error back — the greedy knapsack solution.
+
+| build | GB | at int8 | bytes spent | squared error recovered |
+|---|---|---|---|---|
+| w4a8 (floor) | 12.5 | 0 / 1440 | — | 0% |
+| mix4x8-13.8GB | 13.8 | 386 / 1440 | 1.29 of 8.98 GB | **39.5%** |
+| mix4x8-17GB | 17.0 | 831 / 1440 | 4.49 of 8.98 GB | **82.1%** |
+| int8 (ceiling) | 21.5 | 1440 / 1440 | 8.98 GB | 100% |
+
+**Weight by ||W||^2, not by relative error.** Across all 1440 layers the 4-bit
+relative error spans 0.0721 to 0.0737 — a two percent band — so relative error
+ranks nothing and the ordering is noise. Weighting by absolute residual mass is
+what separates them, and once you do, **363 of the first 386 promotions land in
+the audio tower and only 23 in the video tower**.
 
 ---
 
@@ -103,6 +131,8 @@ file, and rounding them is how a quantised DiT dies.
 | `tools/ltx25_gguf_f16.py` | bf16 safetensors → F16 GGUF master, with the metadata and orig_shape fixes above. Feed the result to `llama-quantize`. |
 | `tools/ltx25_native_quant.py` | bf16 safetensors → ComfyUI-0.32-native quantised safetensors. `QuantizedTensor.from_float(w, layout, **kw)`. |
 | `tools/ltx25_mixed_gguf.py` | per-tensor-class mixed ladders (keep attention high, drop the FFN) for sizes the standard levels do not hit. |
+| `tools/ltx25_mixed_native.py` | measures per-layer reconstruction error at two precisions, then solves the knapsack: which layers earn 8 bits under a size budget. Also a streaming safetensors writer, so a 22B build never needs the whole state dict resident. |
+| `tools/ltx25_native_loadcheck.py` | drives ComfyUI's real `_load_quantized_module` on one layer of every format a file declares, then forwards through it. Catches a bad comfy-native build in seconds. |
 | `tools/ltx25_loadcheck.py` | loads a built file on CPU through ComfyUI-GGUF's `GGMLOps` and reports shape/KV mismatches — catches the two findings above in seconds instead of after a render. |
 | `tools/ltx25_verify.py` | header/KV inspection of a finished GGUF. |
 | `tools/quant_arms.py` | render harness: queues the same scene, seed and size through every arm so the only variable is the weights. |

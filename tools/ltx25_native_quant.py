@@ -48,6 +48,8 @@ FORMATS = {
     "nvfp4":   ("nvfp4", dict(scale="recalculate")),
     "int8":    ("int8_tensorwise", dict(per_channel=True, convrot=True,
                                         convrot_groupsize=256)),
+    "mxfp8":   ("mxfp8", dict(scale="recalculate")),
+    "fp8e5m2": ("float8_e5m2", dict(scale="recalculate")),
 }
 
 
