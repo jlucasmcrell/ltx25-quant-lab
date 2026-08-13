@@ -34,9 +34,10 @@ tensor whose shape would change.
 ### 2. K-quants are legal here; IQ-quants are not
 
 4041 of 4349 tensors have a last dimension divisible by 256. Of the 308 that do
-not, 306 are gate-logit biases of length 32 that stay F32 anyway, and **two are
-real weight matrices** — `patchify_proj.weight` and `audio_patchify_proj.weight`,
-whose 128-wide axis cannot take a K-quant. They fall back to F16, which is the
+not, 306 are biases that stay F16 anyway — 304 gate-logit biases of length 32,
+plus `proj_out.bias` and `audio_proj_out.bias` at length 128 — and **two are real
+weight matrices**, `patchify_proj.weight` and `audio_patchify_proj.weight`, whose
+128-wide axis cannot take a K-quant. They fall back to F16, which is the
 right answer for input projections regardless.
 
 `llama-quantize` **refuses IQ types** for this class of file:
@@ -48,17 +49,26 @@ failed to quantize: Invalid quantization type for image model (Not supported)
 So no IQ2/IQ3/IQ4 ladder exists for LTX-2.5. If you find one published, it was
 made some other way.
 
-Also worth knowing: ComfyUI-GGUF accepts exactly one architecture string for
-this model — `general.architecture = "ltxv"`. Anything else is rejected by its
-`IMG_ARCH_LIST` before a single tensor is read.
+Also worth knowing: the architecture string has to be
+`general.architecture = "ltxv"` exactly. ComfyUI-GGUF checks it against
+`IMG_ARCH_LIST` in `loader.py` — thirteen architectures, of which `ltxv` is the
+one this model must claim — and anything outside that list is rejected before a
+single tensor is read.
 
 ---
 
-## Why these files are ~0.9 GB smaller than the other LTX-2.5 GGUFs
+## Why these files are smaller than the other LTX-2.5 GGUFs
 
-The 2605 tensors that are never quantised — norms, biases, scale-shift tables,
-the two patchify projections — are written **F16 here and F32 elsewhere**. Same
-weights, half the bytes, no quality argument involved.
+Against **realrebelai** it is a flat ~0.9 GB at every level (0.90–0.93 GB, Q2_K
+through Q8_0), and the reason is boring and checkable: the 2605 tensors that are
+never quantised — norms, biases, scale-shift tables, the two patchify
+projections — are written **F16 here and F32 elsewhere**. Same weights, half the
+bytes, no quality argument involved.
+
+Against **vantagewithai / Abiray** the same ~0.9 GB holds at Q6_K and Q8_0 but
+the gap widens to 2.3–4.2 GB below Q5, which that argument does not explain —
+their Q2_K and Q3_K_M are only 0.8 GB apart, so much of their low-bit ladder is
+not actually quantised.
 
 | level | here | realrebelai | vantagewithai / Abiray |
 |---|---|---|---|
@@ -98,6 +108,20 @@ file, and rounding them is how a quantised DiT dies.
 | `tools/quant_arms.py` | render harness: queues the same scene, seed and size through every arm so the only variable is the weights. |
 
 `ltx25_loadcheck.py` is the one to run first on anything you build.
+
+### Run these with ComfyUI's Python, not your system one
+
+`ltx25_native_quant.py` and `ltx25_mixed_native.py` need `comfy_kitchen`, which
+ships inside ComfyUI's embedded interpreter. Under a system Python you get an
+`ERROR:root:Failed to import comfy_kitchen` line, a **stub** `QuantizedTensor`
+class with no `from_float`, and then an `AttributeError` several steps later that
+does not name the real cause.
+
+```bash
+./python_embeded/python.exe tools/ltx25_native_quant.py w4a8
+```
+
+The GGUF tools have no such dependency and run anywhere.
 
 ---
 

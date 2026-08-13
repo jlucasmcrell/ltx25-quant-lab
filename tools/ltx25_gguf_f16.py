@@ -10,7 +10,7 @@ ComfyUI-GGUF accepts:
 Why this model is worth the disk, in one number: every weight matrix in
 LTX-2.5 has a last dimension divisible by 256, so K-quants are legal on all of
 them. The only exceptions are 306 gate-logit bias vectors of length 32, 2 MB in
-total, which stay F32 like every other bias. MiniMax-H3 could not do this - its
+total, which stay F16 like every other bias. MiniMax-H3 could not do this - its
 2688-wide tensors made K-quants impossible - so the LTX-2.5 quant ladder can go
 places the H3 one could not.
 

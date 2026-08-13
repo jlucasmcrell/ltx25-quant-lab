@@ -1,112 +1,104 @@
 {
- "repo": "joeygambino/LTX-2.5-Quantized-16GB",
- "source": "Lightricks/LTX-2.5 bf16 originals",
- "built": "2026-08-13",
- "files": [
-  {
-   "file": "LTX25-distilled-DiT-Q3_K_M.gguf",
-   "kind": "gguf",
-   "bytes": 10602550240,
-   "gb": 10.6,
-   "note": "16 GB: the recommendation",
-   "sha256": "0ead463c1c3bbcd184021788b683a9e1368e705ac5188fa61e2afd13c383943d"
-  },
-  {
-   "file": "LTX25-distilled-DiT-comfy-w4a4.safetensors",
-   "kind": "native",
-   "bytes": 11236345048,
-   "gb": 11.24,
-   "note": "16 GB, no custom node - smallest of all",
-   "sha256": "aed01441248e51d26bfc04ffd1d4937ed535519bc7889216944eadd1602ac44d"
-  },
-  {
-   "file": "LTX25-distilled-DiT-comfy-w4a8.safetensors",
-   "kind": "native",
-   "bytes": 12520362840,
-   "gb": 12.52,
-   "note": "16 GB, no custom node",
-   "sha256": "7f7c0fc3f3452932c8d9dad7fe851b5361b77d4f33d2fa7f9fa2976e27ca7776"
-  },
-  {
-   "file": "LTX25-distilled-DiT-Q4_K_S.gguf",
-   "kind": "gguf",
-   "bytes": 12934620128,
-   "gb": 12.93,
-   "note": "16 GB with room for a bigger canvas",
-   "sha256": "c9d7b3815445dd23148facf0869336e10d4fd94f9bf2590669d66548814e9fa7"
-  },
-  {
-   "file": "LTX25-distilled-DiT-Q2_K.gguf",
-   "kind": "gguf",
-   "bytes": 7908869088,
-   "gb": 7.91,
-   "note": "12 GB cards",
-   "sha256": "730c4bb62b5ee73dd41073942461372a653c8d79f946f77720e3f7f9d025ae79"
-  },
-  {
-   "file": "LTX25-distilled-DiT-Q3_K_S.gguf",
-   "kind": "gguf",
-   "bytes": 9714668512,
-   "gb": 9.71,
-   "note": "12-16 GB",
-   "sha256": "0dc508fbbe6f40b1597b0ad502c85386d49797913f664d7870b90dee4909aaf1"
-  },
-  {
-   "file": "LTX25-distilled-DiT-Q4_K_M.gguf",
-   "kind": "gguf",
-   "bytes": 14167483360,
-   "gb": 14.17,
-   "note": "16 GB, tight",
-   "sha256": "ca3a7bd7bed6b27cfb5fd034ef665aef296229e7de59e1a69c002d26660ac40d"
-  },
-  {
-   "file": "LTX25-distilled-DiT-Q5_K_M.gguf",
-   "kind": "gguf",
-   "bytes": 15903466464,
-   "gb": 15.9,
-   "note": "24 GB",
-   "sha256": "0ba836a80798d8979f2f4c0a543f91944b8a74f68f4a74391648e278de3aec19"
-  },
-  {
-   "file": "LTX25-distilled-DiT-Q6_K.gguf",
-   "kind": "gguf",
-   "bytes": 17747948512,
-   "gb": 17.75,
-   "note": "24 GB",
-   "sha256": "bb6609a4478917ec759511d221356b787188df5db65d61d94b753183e249c8d6"
-  },
-  {
-   "file": "LTX25-distilled-DiT-Q8_0.gguf",
-   "kind": "gguf",
-   "bytes": 22728582112,
-   "gb": 22.73,
-   "note": "24-32 GB",
-   "sha256": "1675ff73cbcb4d965cdc6d05897fe855dc3f7bd6c4813bc842f3efe109b5d7e3"
-  },
-  {
-   "file": "LTX25-distilled-DiT-comfy-nvfp4.safetensors",
-   "kind": "native",
-   "bytes": 12499335336,
-   "gb": 12.5,
-   "note": "Blackwell only",
-   "sha256": "a1232b3abfbe8f0ae23f590bd0c07a107c790cf3c8ba0396464027cb1abe8dfc"
-  },
-  {
-   "file": "LTX25-distilled-DiT-comfy-fp8_e4m3fn.safetensors",
-   "kind": "native",
-   "bytes": 21483328456,
-   "gb": 21.48,
-   "note": "24 GB+, widest GPU support",
-   "sha256": "07884f3a1e887c63d2b8e47e6149d793db65d1b3573f78f7430ec7896d13a18f"
-  },
-  {
-   "file": "gemma4-12b-ltx25-comfy-w4a8.safetensors",
-   "kind": "native",
-   "bytes": 10604342914,
-   "gb": 10.6,
-   "note": "text encoder, 4-bit",
-   "sha256": "bdd2d205d795b9692d2beea357dd28f3c530cccadcdf88ce64f5d978e3573a68"
-  }
- ],
- "total_bytes": 180051903010
+  "repo": "joeygambino/LTX-2.5-Quantized-16GB",
+  "source": "Lightricks/LTX-2.5 bf16 originals",
+  "built": "2026-08-13",
+  "files": [
+    {
+      "file": "LTX25-distilled-DiT-Q3_K_M.gguf",
+      "kind": "gguf",
+      "bytes": 10602550240,
+      "gb": 10.6,
+      "note": "16 GB: the recommendation",
+      "sha256": "0ead463c1c3bbcd184021788b683a9e1368e705ac5188fa61e2afd13c383943d"
+    },
+    {
+      "file": "LTX25-distilled-DiT-comfy-w4a4.safetensors",
+      "kind": "native",
+      "bytes": 11236345048,
+      "gb": 11.24,
+      "note": "16 GB, no custom node - smallest of all",
+      "sha256": "aed01441248e51d26bfc04ffd1d4937ed535519bc7889216944eadd1602ac44d"
+    },
+    {
+      "file": "LTX25-distilled-DiT-comfy-w4a8.safetensors",
+      "kind": "native",
+      "bytes": 12520362840,
+      "gb": 12.52,
+      "note": "16 GB, no custom node",
+      "sha256": "7f7c0fc3f3452932c8d9dad7fe851b5361b77d4f33d2fa7f9fa2976e27ca7776"
+    },
+    {
+      "file": "LTX25-distilled-DiT-Q4_K_S.gguf",
+      "kind": "gguf",
+      "bytes": 12934620128,
+      "gb": 12.93,
+      "note": "16 GB with room for a bigger canvas",
+      "sha256": "c9d7b3815445dd23148facf0869336e10d4fd94f9bf2590669d66548814e9fa7"
+    },
+    {
+      "file": "LTX25-distilled-DiT-Q2_K.gguf",
+      "kind": "gguf",
+      "bytes": 7908869088,
+      "gb": 7.91,
+      "note": "12 GB cards",
+      "sha256": "730c4bb62b5ee73dd41073942461372a653c8d79f946f77720e3f7f9d025ae79"
+    },
+    {
+      "file": "LTX25-distilled-DiT-Q4_K_M.gguf",
+      "kind": "gguf",
+      "bytes": 14167483360,
+      "gb": 14.17,
+      "note": "16 GB, tight",
+      "sha256": "ca3a7bd7bed6b27cfb5fd034ef665aef296229e7de59e1a69c002d26660ac40d"
+    },
+    {
+      "file": "LTX25-distilled-DiT-Q5_K_M.gguf",
+      "kind": "gguf",
+      "bytes": 15903466464,
+      "gb": 15.9,
+      "note": "24 GB",
+      "sha256": "0ba836a80798d8979f2f4c0a543f91944b8a74f68f4a74391648e278de3aec19"
+    },
+    {
+      "file": "LTX25-distilled-DiT-Q6_K.gguf",
+      "kind": "gguf",
+      "bytes": 17747948512,
+      "gb": 17.75,
+      "note": "24 GB",
+      "sha256": "bb6609a4478917ec759511d221356b787188df5db65d61d94b753183e249c8d6"
+    },
+    {
+      "file": "LTX25-distilled-DiT-Q8_0.gguf",
+      "kind": "gguf",
+      "bytes": 22728582112,
+      "gb": 22.73,
+      "note": "24-32 GB",
+      "sha256": "1675ff73cbcb4d965cdc6d05897fe855dc3f7bd6c4813bc842f3efe109b5d7e3"
+    },
+    {
+      "file": "LTX25-distilled-DiT-comfy-nvfp4.safetensors",
+      "kind": "native",
+      "bytes": 12499335336,
+      "gb": 12.5,
+      "note": "Blackwell only",
+      "sha256": "a1232b3abfbe8f0ae23f590bd0c07a107c790cf3c8ba0396464027cb1abe8dfc"
+    },
+    {
+      "file": "LTX25-distilled-DiT-comfy-fp8_e4m3fn.safetensors",
+      "kind": "native",
+      "bytes": 21483328456,
+      "gb": 21.48,
+      "note": "24 GB+, widest GPU support",
+      "sha256": "07884f3a1e887c63d2b8e47e6149d793db65d1b3573f78f7430ec7896d13a18f"
+    },
+    {
+      "file": "gemma4-12b-ltx25-comfy-w4a8.safetensors",
+      "kind": "native",
+      "bytes": 10604342914,
+      "gb": 10.6,
+      "note": "text encoder, 4-bit",
+      "sha256": "bdd2d205d795b9692d2beea357dd28f3c530cccadcdf88ce64f5d978e3573a68"
+    }
+  ],
+  "total_bytes": 170337234498
 }
