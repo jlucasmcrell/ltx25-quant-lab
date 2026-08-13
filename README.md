@@ -1,6 +1,6 @@
 # LTX-2.5 quant lab
 
-Tooling that produced [**joeygambino/LTX-2.5-Quantized-16GB**](https://huggingface.co/joeygambino/LTX-2.5-Quantized-16GB) —
+Tooling that produced [**joeygambino/LTX-2.5-Quantized**](https://huggingface.co/joeygambino/LTX-2.5-Quantized) —
 thirteen quantisations of Lightricks' LTX-2.5 22B audio+video transformer plus a
 quantised Gemma-4 text encoder, cut so the model runs on a card that does not
 have 42 GB.
