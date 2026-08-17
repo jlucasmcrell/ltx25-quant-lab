@@ -131,6 +131,7 @@ the audio tower and only 23 in the video tower**.
 |---|---|
 | `tools/ltx25_gguf_f16.py` | bf16 safetensors → F16 GGUF master, with the metadata and orig_shape fixes above. Feed the result to `llama-quantize`. |
 | `tools/ltx25_native_quant.py` | bf16 safetensors → ComfyUI-0.32-native quantised safetensors. `QuantizedTensor.from_float(w, layout, **kw)`. |
+| `tools/h3_native_quant.py` | **MiniMax-H3** bf16 safetensors → ComfyUI-native quantised safetensors (int8-convrot, w4a8, w4a4, nvfp4, mxfp8, fp8), no custom node needed to load. Mirrors the layer set of Comfy-Org's `minimax_h3_ref2va_pruned_int8_convrot` (adaln included). Self-contained: `python tools/h3_native_quant.py w4a8 --src <pruned bf16> --canon <Comfy-Org int8_convrot> --out <file> --comfy <ComfyUI dir>`. Use the PRUNED lineage - full-lineage 4-bit lands at ~19.9 GB, pruned ~12.5 GB. |
 | `tools/ltx25_mixed_gguf.py` | per-tensor-class mixed ladders (keep attention high, drop the FFN) for sizes the standard levels do not hit. |
 | `tools/ltx25_mixed_native.py` | measures per-layer reconstruction error at two precisions, then solves the knapsack: which layers earn 8 bits under a size budget. Also a streaming safetensors writer, so a 22B build never needs the whole state dict resident. |
 | `tools/ltx25_native_loadcheck.py` | drives ComfyUI's real `_load_quantized_module` on one layer of every format a file declares, then forwards through it. Catches a bad comfy-native build in seconds. |
